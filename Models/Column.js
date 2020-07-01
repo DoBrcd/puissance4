@@ -19,14 +19,6 @@ class Column {
         }
         else return true;
     }
-
-    toString(){
-        let text = "";
-        this.pions.forEach(pion => {
-            text += pion;
-        });
-    }
-
 }
 
 module.exports = Column;

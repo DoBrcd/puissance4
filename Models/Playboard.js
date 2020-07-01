@@ -21,16 +21,12 @@ class Playboard {
     }
 
     playAt(nbColonne) {
-        //console.log(this.colonnes[nbColonne -1]);
-        const col = this.colonnes[nbColonne -1];
+        const col = this.colonnes[nbColonne - 1];
         const canPlay = !(col.isFull());
-        console.debug(col);
-        console.debug(this.possibleEmoji[this.actualEmoji]);
         if (canPlay) {
-            console.log("truc");
             col.addPion(this.possibleEmoji[this.actualEmoji]);
             this.actualEmoji++;
-            this.actualEmoji = this.actualEmoji %2;
+            this.actualEmoji = this.actualEmoji % 2;
         } else {
             console.log("Colonne pleine");
         }

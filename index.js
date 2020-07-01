@@ -41,8 +41,10 @@ bot.on('message', async message => {
             return emoji.all.includes(reaction.emoji.name) && (!user.bot);
         }
         let out = true;
+        await controller.draw(message, filter, partie);
+        message = message.channel.lastMessage;
         while (out == true) {
-            await controller.draw(message, filter, partie, out);
+            await controller.redraw(message, filter, partie);
         }
     }
 
