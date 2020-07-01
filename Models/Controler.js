@@ -79,7 +79,7 @@ class Controller {
 
                 switch (reaction.emoji.name) {
                     case emoji[1]:
-                        console.log("Jouer dans la colonne 1 \n" + reaction);
+                        console.log("Jouer dans la colonne 1");
                         return partie.playAt(1);
                     case emoji[2]:
                         console.log("Jouer dans la colonne 2");
