@@ -2,9 +2,11 @@ const config = require('./config.json');
 const Discord = require('discord.js');
 const emoji = require('./emoji');
 const Playboard = require('./Models/Playboard');
+const Controller = require('./Models/Controler');
 
 const bot = new Discord.Client({ disableEveryone: true });
 const partie = new Playboard();
+const controller = new Controller(bot);
 
 bot.on('ready', async () => {
     console.log(`${bot.user.username} est en ligne !`);
@@ -34,58 +36,18 @@ bot.on('message', async message => {
         return message.channel.send(embed);
     }
 
-    if (args[0] === `start`) {
-
+    if (args[0] === `s`) {
         const filter = (reaction, user) => {
-            return emoji.all.includes(reaction.emoji.name);
+            return emoji.all.includes(reaction.emoji.name) && (!user.bot);
         }
-        //let embed = ":one::two::three::four::five::six::seven:\n:white_circle::white_circle::white_circle::white_circle::white_circle::white_circle::white_circle:\n:white_circle::white_circle::white_circle::white_circle::white_circle::white_circle::white_circle:\n:white_circle::white_circle::white_circle::white_circle::white_circle::white_circle::white_circle:\n:white_circle::white_circle::white_circle::white_circle::white_circle::white_circle::white_circle:\n:white_circle::white_circle::white_circle::white_circle::white_circle::white_circle::white_circle:\n:white_circle::white_circle::white_circle::white_circle::white_circle::white_circle::white_circle:"
-        let embed = partie.toString();
-
-        let msg = await message.channel.send(embed);
-
-
-        await msg.react(emoji[1]);
-        await msg.react(emoji[2]);
-        await msg.react(emoji[3]);
-        await msg.react(emoji[4]);
-        await msg.react(emoji[5]);
-        await msg.react(emoji[6]);
-        await msg.react(emoji[7]);
-
-        msg.awaitReactions(filter, { max: 1 })
-            .then(collected => {
-                const reaction = collected.first();
-
-                switch (reaction.emoji.name) {
-                    case emoji[1]:
-                        partie.playAt(1);
-                        break;
-                    case emoji[2]:
-                        partie.playAt(2);
-                        break;
-                    case emoji[3]:
-                        partie.playAt(3);
-                        break;
-                    case emoji[4]:
-                        partie.playAt(4);
-                        break;
-                    case emoji[5]:
-                        partie.playAt(5);
-                        break;
-                    case emoji[6]:
-                        partie.playAt(6);
-                        break;
-                    case emoji[7]:
-                        partie.playAt(7);
-                        break;
-                }
-                //draw();
-            })
-            .catch(collected => {
-                message.reply('This make no sense');
-            })
+        let out = true;
+        while (out == true) {
+            await controller.draw(message, filter, partie, out);
+        }
     }
+
 })
 
 bot.login(config.token);
+
+module.exports = bot;
