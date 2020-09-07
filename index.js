@@ -3,9 +3,9 @@ const Discord = require('discord.js');
 const emoji = require('./emoji');
 const Playboard = require('./Models/Playboard');
 const Controller = require('./Models/Controler');
+const Player = require('./Models/Player');
 
 const bot = new Discord.Client({ disableEveryone: true });
-const partie = new Playboard();
 const controller = new Controller(bot);
 
 bot.on('ready', async () => {
@@ -37,15 +37,23 @@ bot.on('message', async message => {
     }
 
     if (args[0] === `s`) {
+        const user1 = args[1];
+        const user2 = args[2];
+        const listPlayer = [new Player(user1), new Player(user2)];
+        let partie = new Playboard(listPlayer);
         const filter = (reaction, user) => {
-            return emoji.all.includes(reaction.emoji.name) && (!user.bot);
+            return emoji.all.includes(reaction.emoji.name) && (!user.bot) && (user === user1 || user === user2);
         }
         let out = true;
         while (out == true) {
             await controller.draw(message, filter, partie, out);
         }
     }
-
+    if (args[0] === 'avatar') {
+        const user = message.author;
+        return message.channel.send(`${user}'s avatar: ${user.displayAvatarURL({ dynamic: true })}`);
+    }
+    
 })
 
 bot.login(config.token);

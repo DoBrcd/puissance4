@@ -1,8 +1,12 @@
+const Discord = require('discord.js');
+
 class Player {
 
-    toString(){
-        return "blabla";
-    }
+	constructor(user){
+		this.user = user;
+		console.log(this.user);
+	}
+
 }
 
 module.exports = Player;
