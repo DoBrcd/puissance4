@@ -1,6 +1,7 @@
 const Colonne = require("./Column");
 const Emoji = require('../emoji');
 const app = require('../index');
+const space = '       '
 
 class Playboard {
     constructor() {
@@ -33,14 +34,15 @@ class Playboard {
     }
 
     toString() {
-        let text = Emoji[1] + Emoji[2] + Emoji[3] + Emoji[4] + Emoji[5] + Emoji[6] + Emoji[7] + "\n";
+        let text = Emoji[1] + space + Emoji[2] + space + Emoji[3] + space + Emoji[4] + space + Emoji[5] + space + Emoji[6] + space + Emoji[7] + "\n";
         for (let i = 6 - 1; i >= 0; i--) {
             for (let j = 0; j < 7; j++) {
                 if (this.colonnes[j].pions[i]) {
-                    text += this.colonnes[j].pions[i];
+                    text += this.colonnes[j].pions[i] ;
                 } else {
                     text += Emoji.circle.white;
                 }
+                text += space;
             }
             text += "\n";
         }
