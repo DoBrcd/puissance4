@@ -58,7 +58,7 @@ class Controller {
             })
     }
 
-    async redraw(message, filter, partie) {
+    async redraw(message, filter, partie, result) {
 
         let embed = partie.toString();
         let msg = message;
@@ -77,32 +77,46 @@ class Controller {
             .then(collected => {
                 const reaction = collected.first();
 
+                result = false;
+
                 switch (reaction.emoji.name) {
                     case emoji[1]:
                         console.log("Jouer dans la colonne 1");
-                        return partie.playAt(1);
+                        result = partie.playAt(1);
+                        break;
                     case emoji[2]:
                         console.log("Jouer dans la colonne 2");
-                        return partie.playAt(2);
+                        result = partie.playAt(2);
+                        break;
                     case emoji[3]:
                         console.log("Jouer dans la colonne 3");
-                        return partie.playAt(3);
+                        result =  partie.playAt(3);
+                        break;
                     case emoji[4]:
                         console.log("Jouer dans la colonne 4");
-                        return partie.playAt(4);
+                        result = partie.playAt(4);
+                        break;
                     case emoji[5]:
                         console.log("Jouer dans la colonne 5");
-                        return partie.playAt(5);
+                        result = partie.playAt(5);
+                        break;
                     case emoji[6]:
                         console.log("Jouer dans la colonne 6");
-                        return partie.playAt(6);
+                        result = partie.playAt(6);
+                        break;
                     case emoji[7]:
                         console.log("Jouer dans la colonne 7");
-                        return partie.playAt(7);
+                        result = partie.playAt(7);
+                        break;
                     default:
                         msg.channel.send("Trolololololololololol");
                         break;
                 }
+
+                if(result) {
+                    message.channel.send("Victoire");
+                }
+                return result;
             })
             .catch(collected => {
                 console.log(collected);
